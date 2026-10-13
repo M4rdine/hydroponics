@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 548" width="1200" height="548" role="img">
+<defs>
+<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#1f2a24" opacity=".10"/></pattern>
+<marker id="a-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f2a24"/></marker><marker id="a-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2e7d4f"/></marker><marker id="a-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2b7a9b"/></marker><marker id="a-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c8402f"/></marker>
+<style>
+text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;fill:#1f2a24;font-size:12px}
+.h{font-family:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-weight:700;font-size:24px}
+.sub{fill:#5d6b62;font-size:13px}
+.b{font-weight:700}
+.tag{font-weight:700;font-size:11px;letter-spacing:1.5px}
+.m{fill:#5d6b62}
+.w{fill:#fff}
+.s{font-size:11px}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.wire{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</defs>
+<rect width="1200" height="548" rx="18" fill="#f4f1e8"/>
+<rect width="1200" height="548" rx="18" fill="url(#dots)"/>
+<text x="40" y="52" class="h">Bomba no relé</text>
+<text x="40" y="76" class="sub">só o fio positivo passa pelo relé; baixa tensão (12 V em corrente contínua) do começo ao fim</text>
+<rect x="40" y="170" width="190" height="130" rx="10" fill="#fff" stroke="#1f2a24" stroke-width="1.5"/>
+<text x="58" y="200" class="b" style="font-size:14px">Fonte 12 V · 1 A</text>
+<text x="58" y="220" class="s m">bivolt 100–240 V</text>
+<text x="58" y="236" class="s m">na tomada</text>
+<text x="220" y="259" class="e b" fill="#c8402f" style="font-size:16px">+</text>
+<text x="220" y="289" class="e b" style="font-size:16px">−</text>
+<rect x="440" y="110" width="320" height="170" rx="10" fill="#fff" stroke="#1f2a24" stroke-width="1.5"/>
+<text x="458" y="138" class="b" style="font-size:14px">Módulo relé · canal 1</text>
+<text x="458" y="158" class="s m">bobina comandada pelo GPIO26</text>
+<text x="458" y="174" class="s m">nível baixo = relé fechado</text>
+<rect x="506" y="252" width="28" height="28" rx="4" fill="#9aa59e" stroke="#1f2a24" stroke-width="1.2"/>
+<circle cx="520" cy="266" r="6" fill="#f4f1e8" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="520" y="244" class="c b">NC</text>
+<rect x="586" y="252" width="28" height="28" rx="4" fill="#9aa59e" stroke="#1f2a24" stroke-width="1.2"/>
+<circle cx="600" cy="266" r="6" fill="#f4f1e8" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="600" y="244" class="c b">COM</text>
+<rect x="666" y="252" width="28" height="28" rx="4" fill="#9aa59e" stroke="#1f2a24" stroke-width="1.2"/>
+<circle cx="680" cy="266" r="6" fill="#f4f1e8" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="680" y="244" class="c b">NO</text>
+<line x1="600" y1="228" x2="600" y2="206" stroke="#1f2a24" stroke-width="2"/>
+<line x1="680" y1="228" x2="680" y2="206" stroke="#1f2a24" stroke-width="2"/>
+<line x1="600" y1="206" x2="668" y2="192" stroke="#1f2a24" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="600" cy="206" r="3.5" fill="#1f2a24"/><circle cx="680" cy="206" r="3.5" fill="#1f2a24"/>
+<text x="700" y="198" class="s m">contato</text>
+<rect x="970" y="170" width="190" height="130" rx="10" fill="#cfe4ec" stroke="#1f2a24" stroke-width="1.5"/>
+<text x="1012" y="200" class="b" style="font-size:14px">Bomba submersa</text>
+<text x="1012" y="220" class="s m">DC 5–12 V · 1–3 W</text>
+<text x="1012" y="236" class="s m">no reservatório</text>
+<text x="982" y="259" class="b" fill="#c8402f" style="font-size:16px">+</text>
+<text x="982" y="289" class="b" style="font-size:16px">−</text>
+<path d="M230 254H330V350H600V282" class="wire" stroke="#c8402f"/>
+<path d="M680 282V350H900V254H970" class="wire" stroke="#c8402f"/>
+<path d="M230 284H290V410H935V284H970" class="wire" stroke="#1f2a24"/>
+<text x="465" y="340" class="c s b" fill="#c8402f">vermelho (+) da fonte → COM</text>
+<text x="790" y="340" class="c s b" fill="#c8402f">NO → vermelho (+) da bomba</text>
+<text x="612" y="400" class="c s b">preto (−) segue direto, sem passar pelo relé</text>
+<line x1="608" y1="350" x2="672" y2="350" stroke="#c8402f" stroke-width="2" stroke-dasharray="3 6" opacity=".6"/>
+<text x="640" y="374" class="c s m">fio cortado aqui</text>
+<rect x="40" y="440" width="545" height="78" rx="8" fill="#fff" stroke="#1f2a24" stroke-width="1"/><rect x="40" y="440" width="6" height="78" fill="#2e7d4f"/>
+<text x="60" y="464" class="tag">POR QUE NO (NORMALMENTE ABERTO)</text>
+<text x="60" y="486" class="s">Se o ESP32 desligar, travar ou reiniciar, o contato abre</text>
+<text x="60" y="502" class="s">e a bomba para. O padrão seguro é bomba desligada.</text>
+<rect x="615" y="440" width="545" height="78" rx="8" fill="#fff" stroke="#1f2a24" stroke-width="1"/><rect x="615" y="440" width="6" height="78" fill="#d99a1b"/>
+<text x="635" y="464" class="tag">PLACA SEM SERIGRAFIA?</text>
+<text x="635" y="486" class="s">Multímetro em continuidade, relé desligado: os dois bornes</text>
+<text x="635" y="502" class="s">que apitam são COM e NC. O que sobra é o NO.</text>
+</svg>

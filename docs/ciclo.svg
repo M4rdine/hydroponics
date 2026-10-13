@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 322" width="1200" height="322" role="img">
+<defs>
+<pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#1f2a24" opacity=".10"/></pattern>
+<marker id="a-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f2a24"/></marker><marker id="a-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2e7d4f"/></marker><marker id="a-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2b7a9b"/></marker><marker id="a-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c8402f"/></marker>
+<style>
+text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;fill:#1f2a24;font-size:12px}
+.h{font-family:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-weight:700;font-size:24px}
+.sub{fill:#5d6b62;font-size:13px}
+.b{font-weight:700}
+.tag{font-weight:700;font-size:11px;letter-spacing:1.5px}
+.m{fill:#5d6b62}
+.w{fill:#fff}
+.s{font-size:11px}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.wire{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</defs>
+<rect width="1200" height="322" rx="18" fill="#f4f1e8"/>
+<rect width="1200" height="322" rx="18" fill="url(#dots)"/>
+<text x="40" y="52" class="h">Ciclo automático da bomba</text>
+<text x="40" y="76" class="sub">fase de transplante: 15 min ligada / 15 min desligada (depois de enraizar: 15 / 30)</text>
+<rect x="60" y="130" width="176" height="46" rx="8" fill="#dcd8cb"/>
+<text x="148.0" y="159" class="c b m">desligada</text>
+<line x1="60" y1="182" x2="60" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="60" y="206" class="c s">boot</text>
+<rect x="240" y="130" width="176" height="46" rx="8" fill="#2b7a9b"/>
+<text x="328.0" y="159" class="c b w">LIGADA</text>
+<line x1="240" y1="182" x2="240" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="240" y="206" class="c s">15 min</text>
+<rect x="420" y="130" width="176" height="46" rx="8" fill="#dcd8cb"/>
+<text x="508.0" y="159" class="c b m">desligada</text>
+<line x1="420" y1="182" x2="420" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="420" y="206" class="c s">30 min</text>
+<rect x="600" y="130" width="176" height="46" rx="8" fill="#2b7a9b"/>
+<text x="688.0" y="159" class="c b w">LIGADA</text>
+<line x1="600" y1="182" x2="600" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="600" y="206" class="c s">45 min</text>
+<rect x="780" y="130" width="176" height="46" rx="8" fill="#dcd8cb"/>
+<text x="868.0" y="159" class="c b m">desligada</text>
+<line x1="780" y1="182" x2="780" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="780" y="206" class="c s">60 min</text>
+<rect x="960" y="130" width="176" height="46" rx="8" fill="#2b7a9b"/>
+<text x="1048.0" y="159" class="c b w">LIGADA</text>
+<line x1="960" y1="182" x2="960" y2="190" stroke="#1f2a24" stroke-width="1.2"/>
+<text x="960" y="206" class="c s">75 min</text>
+<text x="1140" y="206" class="c s">…</text>
+<text x="60" y="252" class="s">• Todo boot começa com a bomba desligada (restore_mode: ALWAYS_OFF).</text>
+<text x="60" y="272" class="s">• Ligar ou desligar a bomba à mão reinicia o cronômetro da fase.</text>
+<text x="60" y="292" class="s">• Chave “Ciclo Automático” desligada = cronômetro congelado, controle 100% manual.</text>
+</svg>
