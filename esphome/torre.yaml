@@ -1,0 +1,155 @@
+# Duracao das fases do ciclo em SEGUNDOS.
+# FASE TRANSPLANTE (ate ~20/08): 900/900 (15min/15min).
+# Apos enraizamento: fase_desligada_s -> "1800" (15min on / 30min off)
+substitutions:
+  fase_ligada_s: "900"
+  fase_desligada_s: "900"
+
+esphome:
+  name: torre-hidroponica
+  friendly_name: Torre Hidroponica
+
+esp32:
+  board: esp32doit-devkit-v1
+  framework:
+    type: esp-idf
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  # Se nao conseguir conectar no WiFi, cria uma rede propria de emergencia
+  ap:
+    ssid: "Torre-Hidroponica"
+    password: !secret ap_password
+
+# Chave e senhas ficam no secrets.yaml (fora do git; modelo em secrets.example.yaml)
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+logger:
+
+# Dashboard web servido pelo proprio ESP32: http://torre-hidroponica.local
+web_server:
+  port: 80
+  version: 3
+  auth:
+    username: !secret web_username
+    password: !secret web_password
+
+# Teste "estou vivo": LED azul onboard (GPIO2) piscando a cada 1s
+switch:
+  - platform: gpio
+    pin: GPIO2
+    id: led_onboard
+    name: "LED Onboard"
+
+  # Rele canal 1 (bomba). Modulo low-level trigger:
+  # inverted faz "ligado" no software = pino em 0V = rele fechado
+  # Toda troca de estado (manual ou automatica) reinicia o cronometro da fase
+  - platform: gpio
+    pin: GPIO26
+    inverted: true
+    id: rele_bomba
+    name: "Rele Bomba"
+    restore_mode: ALWAYS_OFF
+    on_turn_on:
+      - globals.set:
+          id: seg_restantes
+          value: "${fase_ligada_s}"
+    on_turn_off:
+      - globals.set:
+          id: seg_restantes
+          value: "${fase_desligada_s}"
+
+  # Chave mestra do ciclo automatico: desligue para assumir controle manual
+  - platform: template
+    name: "Ciclo Automatico"
+    id: ciclo_automatico
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+
+globals:
+  - id: seg_restantes
+    type: int
+    restore_value: no
+    initial_value: '60'   # 1min apos boot, inicia a primeira fase ligada
+
+interval:
+  - interval: 1s
+    then:
+      - switch.toggle: led_onboard
+
+  # Motor do ciclo: conta regressiva de 1 em 1 segundo.
+  # Ciclo Automatico desligado = cronometro congelado (controle 100% manual)
+  - interval: 1s
+    then:
+      - lambda: |-
+          if (!id(ciclo_automatico).state) return;
+          id(seg_restantes) -= 1;
+          if (id(seg_restantes) <= 0) {
+            if (id(rele_bomba).state) id(rele_bomba).turn_off();
+            else id(rele_bomba).turn_on();
+          }
+
+text_sensor:
+  # Status legivel no dashboard: fase atual + contagem regressiva
+  - platform: template
+    name: "Status da Bomba"
+    icon: "mdi:timer-outline"
+    update_interval: 5s
+    lambda: |-
+      if (!id(ciclo_automatico).state)
+        return std::string("Ciclo pausado (controle manual)");
+      int m = (id(seg_restantes) + 59) / 60;
+      char buf[48];
+      if (id(rele_bomba).state)
+        snprintf(buf, sizeof(buf), "Ligada - desliga em %d min", m);
+      else
+        snprintf(buf, sizeof(buf), "Desligada - liga em %d min", m);
+      return std::string(buf);
+
+# Sensor de temperatura DS18B20 no pino D4
+one_wire:
+  - platform: gpio
+    pin: GPIO4
+
+sensor:
+  - platform: dallas_temp
+    id: temp_agua
+    name: "Temperatura da Agua"
+    update_interval: 5s
+
+  # ── TDS DESATIVADO: placa defeituosa devolvida (08/2026). ──
+  # Quando o substituto chegar: descomentar os dois blocos abaixo,
+  # conferir a serigrafia do cabo (A/+/-) ANTES de assumir cores,
+  # e plugar o bloco na coluna S-V-G do D32 do shield.
+  #
+  # - platform: adc
+  #   pin: GPIO32
+  #   id: tds_tensao
+  #   name: "TDS Tensao"
+  #   attenuation: 12db
+  #   update_interval: 5s
+  #   filters:
+  #     - median:
+  #         window_size: 7
+  #         send_every: 1
+  #
+  # - platform: template
+  #   name: "TDS"
+  #   unit_of_measurement: "ppm"
+  #   icon: "mdi:water-opacity"
+  #   accuracy_decimals: 0
+  #   update_interval: 5s
+  #   lambda: |-
+  #     float v = id(tds_tensao).state;
+  #     if (isnan(v)) return NAN;
+  #     float t = id(temp_agua).state;
+  #     if (isnan(t)) t = 25.0;
+  #     float coef = 1.0 + 0.02 * (t - 25.0);
+  #     float vc = v / coef;
+  #     return (133.42*vc*vc*vc - 255.86*vc*vc + 857.39*vc) * 0.5;
