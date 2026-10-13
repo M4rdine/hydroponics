@@ -59,10 +59,16 @@ Régua dos pinos pendurados (topo→base): 24=VIN, 23=GND, 22=D13, 21=D12,
 ## Front-ends
 
 - Dashboard do ESP32 (web_server v3): http://torre-hidroponica.local (pede usuário/senha do secrets.yaml)
-- Home Assistant (Docker/colima, config em `~/homeassistant`): http://localhost:8123
-  - Integração ESPHome adicionada MANUALMENTE (host = IP do ESP32 na rede local, porta 6053, chave `api_encryption_key`) —
-    mDNS não atravessa a VM do colima
-- Futuro: MQTT → VPS (Mosquitto + InfluxDB + Grafana) + Uptime Kuma vigiando de fora
+- Home Assistant na VPS (13/10/2026), acessível de qualquer lugar por HTTPS:
+  - ESP32 → MQTT com TLS (porta 8883) → Mosquitto na VPS ← Home Assistant (mesma rede do compose)
+  - Arquivos de deploy em `vps/` (compose em `/opt/torre` na VPS; domínio e senhas ficam fora do git)
+  - HA atrás do nginx do host; desde o HA 2026.10 o proxy reverso é configurado pelo
+    websocket `http/config/configure` + `http/config/promote` (ver `vps/homeassistant/configuration.yaml`)
+  - Certificado Let's Encrypt renovado pelo certbot; hook copia para o Mosquitto (`vps/certbot-deploy-hook.sh`)
+- `reboot_timeout: 0s` na API e no MQTT: sem isso o ESP32 reiniciava a cada 15 min sem cliente
+  na API (o que acontecia desde que o HA do Mac parou, em 20/09) — cada boot recomeça o ciclo
+- HA antigo do Mac (Docker/colima, `~/homeassistant`) desativado
+- Futuro: InfluxDB + Grafana e Uptime Kuma vigiando de fora
 
 ## Migração futura: shield expansor 30 pinos (em trânsito)
 

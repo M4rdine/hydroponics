@@ -1,0 +1,10 @@
+default_config:
+
+# Proxy reverso (nginx do host): desde o HA 2026.10 a config HTTP nao fica
+# mais aqui. Ela vive no storage e e aplicada via websocket http/config/configure
+# com use_x_forwarded_for: true e trusted_proxies: [172.30.50.0/24] (rede do
+# compose), depois confirmada com http/config/promote em ate 5 min.
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

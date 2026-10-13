@@ -1,0 +1,36 @@
+# Home Assistant + Mosquitto na VPS (deploy em /opt/torre).
+# O ESP32 conecta de fora no Mosquitto (8883, TLS); o HA fica so em
+# 127.0.0.1:8123 e e publicado pelo nginx do host com HTTPS.
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "8883:8883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/certs:/mosquitto/certs:ro
+    networks:
+      - torre
+
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    environment:
+      - TZ=America/Cuiaba
+    volumes:
+      - ./homeassistant:/config
+    ports:
+      - "127.0.0.1:8123:8123"
+    depends_on:
+      - mosquitto
+    networks:
+      - torre
+
+networks:
+  torre:
+    ipam:
+      config:
+        # Fixa a sub-rede para o trusted_proxies do HA (configuration.yaml)
+        - subnet: 172.30.50.0/24

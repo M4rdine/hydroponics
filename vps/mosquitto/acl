@@ -1,0 +1,8 @@
+# Home Assistant le e comanda tudo
+user homeassistant
+topic readwrite #
+
+# ESP32 so mexe nos proprios topicos e no discovery do HA
+user torre-esp
+topic readwrite torre-hidroponica/#
+topic readwrite homeassistant/#
